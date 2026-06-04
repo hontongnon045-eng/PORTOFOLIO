@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --rouge:#e63012;--rouge2:#a8210c;--or:#c9a050;
+  --blanc:#f4efe8;--noir:#080808;--g1:#141210;
+  --g2:#222020;--g3:#6a6460;--g4:#2e2a28;
+  --px:20px;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--noir);color:var(--blanc);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;}
+
+/* NAV */
+nav{display:flex;justify-content:space-between;align-items:center;padding:18px var(--px);border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:100;background:rgba(8,8,8,.95);backdrop-filter:blur(10px);}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:3px;}
+.logo span{color:var(--rouge);}
+.nav-right{display:flex;align-items:center;gap:16px;}
+.nav-avail{display:flex;align-items:center;gap:6px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g3);}
+.dot-g{width:6px;height:6px;border-radius:50%;background:#2dbe6c;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.nav-menu{display:none;flex-direction:column;gap:4px;cursor:pointer;padding:4px;}
+.nav-menu span{width:20px;height:1.5px;background:var(--blanc);display:block;transition:all .3s;}
+.mobile-menu{display:none;position:fixed;inset:0;background:rgba(8,8,8,.98);z-index:99;flex-direction:column;justify-content:center;align-items:center;gap:32px;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:3px;color:var(--blanc);text-decoration:none;}
+.mobile-menu a:hover{color:var(--rouge);}
+.menu-close{position:absolute;top:20px;right:20px;font-size:28px;color:var(--g3);cursor:pointer;}
+
+/* HERO */
+.hero{padding:48px var(--px) 40px;border-bottom:1px solid rgba(255,255,255,.05);}
+.hero-tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--rouge);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.hero-tag::before{content:'';width:22px;height:1px;background:var(--rouge);}
+.hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,14vw,88px);line-height:.9;letter-spacing:1px;margin-bottom:8px;}
+.hero-name .out{-webkit-text-stroke:1px rgba(244,239,232,.35);color:transparent;}
+.hero-sub{font-family:'Syne',sans-serif;font-size:11px;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:var(--or);margin-bottom:20px;}
+.hero-desc{font-size:13px;font-weight:300;line-height:1.85;color:var(--g3);margin-bottom:24px;}
+.hero-badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:28px;}
+.badge{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border:1px solid rgba(255,255,255,.1);color:var(--g3);}
+.badge.r{border-color:rgba(230,48,18,.4);color:var(--rouge);}
+.badge.o{border-color:rgba(201,160,80,.35);color:var(--or);}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;}
+.btn{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:12px 24px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block;}
+.btn-r{background:var(--rouge);color:var(--blanc);}
+.btn-r:hover{background:var(--rouge2);}
+.btn-o{background:transparent;color:var(--g3);border:1px solid rgba(255,255,255,.15);}
+.btn-o:hover{color:var(--blanc);}
+
+/* PROFIL CARD */
+.profil-wrap{padding:0 var(--px) 40px;}
+.profil-card{background:var(--g1);border:1px solid rgba(255,255,255,.06);padding:24px;margin-top:32px;}
+.profil-top{display:flex;align-items:center;gap:16px;margin-bottom:20px;}
+.p-initials{width:52px;height:52px;background:var(--rouge);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--blanc);flex-shrink:0;}
+.p-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--blanc);}
+.p-role{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--or);margin-top:2px;}
+.p-infos{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.pi{display:flex;gap:8px;align-items:center;}
+.pi-icon{width:28px;height:28px;border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--rouge);flex-shrink:0;}
+.pi-val{font-size:11px;color:var(--blanc);line-height:1.4;}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.04);margin:0 var(--px) 0;}
+.stat-box{background:var(--g1);padding:18px 12px;text-align:center;}
+.stat-n{font-family:'Bebas Neue',sans-serif;font-size:28px;line-height:1;}
+.stat-n span{color:var(--rouge);}
+.stat-l{font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g3);margin-top:3px;}
+
+/* SECTION */
+.sec{padding:52px var(--px);}
+.sec-tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--rouge);margin-bottom:10px;}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,10vw,64px);line-height:.95;margin-bottom:36px;}
+.sep{height:1px;background:rgba(255,255,255,.05);margin:0 var(--px);}
+
+/* SKILLS */
+.skills-col{margin-bottom:36px;}
+.col-title{font-family:'Syne',sans-serif;font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--blanc);padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+.sk-row{margin-bottom:18px;}
+.sk-top{display:flex;justify-content:space-between;margin-bottom:7px;}
+.sk-name{font-size:12px;color:var(--blanc);}
+.sk-pct{font-size:10px;color:var(--g3);}
+.sk-bar{height:2px;background:rgba(255,255,255,.07);}
+.sk-fill{height:100%;background:var(--rouge);width:0;transition:width 1.2s cubic-bezier(.25,.46,.45,.94);}
+.sk-fill.o{background:var(--or);}
+.sk-row.anim .sk-fill{width:var(--w);}
+.sk-tag{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;border:1px solid rgba(201,160,80,.3);color:var(--or);display:inline-block;margin-top:5px;}
+.sk-tag.r{border-color:rgba(230,48,18,.3);color:var(--rouge);}
+
+/* OUTILS */
+.tools-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(255,255,255,.04);}
+.tool-item{background:var(--g1);padding:22px 16px;text-align:center;}
+.tool-icon{font-size:22px;margin-bottom:8px;display:block;}
+.tool-name{font-size:11px;font-weight:500;color:var(--blanc);margin-bottom:3px;}
+.tool-lvl{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g3);}
+.tool-lvl.v{color:#2dbe6c;}
+.tool-lvl.o{color:var(--or);}
+
+/* PROJETS */
+.proj-list{display:flex;flex-direction:column;gap:2px;}
+.proj-card{background:var(--g1);border-left:3px solid var(--rouge);padding:22px 20px;transition:background .2s;}
+.proj-card.o{border-color:var(--or);}
+.proj-card:active{background:var(--g2);}
+.proj-type{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--g3);margin-bottom:6px;}
+.proj-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--blanc);margin-bottom:6px;line-height:1.3;}
+.proj-desc{font-size:12px;font-weight:300;line-height:1.75;color:var(--g3);margin-bottom:12px;}
+.proj-tags{display:flex;flex-wrap:wrap;gap:5px;}
+.ptag{font-size:8px;letter-spacing:1.2px;text-transform:uppercase;padding:3px 8px;border:1px solid rgba(255,255,255,.08);color:var(--g3);}
+
+/* TIMELINE */
+.tl-item{padding:24px 0;border-top:1px solid rgba(255,255,255,.05);}
+.tl-year{font-family:'Bebas Neue',sans-serif;font-size:38px;color:rgba(255,255,255,.1);line-height:1;margin-bottom:6px;}
+.tl-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--blanc);margin-bottom:3px;}
+.tl-org{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--or);margin-bottom:8px;}
+.tl-desc{font-size:12px;font-weight:300;line-height:1.8;color:var(--g3);}
+
+/* CONTACT */
+.contact-sec{background:var(--g1);padding:52px var(--px);}
+.c-items{display:flex;flex-direction:column;gap:0;margin-bottom:36px;}
+.c-item{display:flex;align-items:flex-start;gap:14px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.c-item:last-child{border:none;}
+.c-icon{width:36px;height:36px;border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--rouge);flex-shrink:0;}
+.c-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--g3);margin-bottom:3px;}
+.c-val{font-size:12px;color:var(--blanc);line-height:1.6;}
+.cta-box{background:var(--g2);border:1px solid rgba(230,48,18,.2);padding:28px 24px;}
+.cta-title{font-family:'Bebas Neue',sans-serif;font-size:26px;margin-bottom:8px;}
+.cta-desc{font-size:11px;font-weight:300;line-height:1.8;color:var(--g3);margin-bottom:20px;}
+.svc-list{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
+.svc-row{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--g3);}
+.svc-dot{width:4px;height:4px;background:var(--rouge);flex-shrink:0;}
+.svc-row.o .svc-dot{background:var(--or);}
+.svc-row.o{color:var(--blanc);}
+.btn-full{width:100%;text-align:center;display:block;padding:14px;}
+
+/* FOOTER */
+footer{padding:20px var(--px);border-top:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.f-logo{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:3px;color:rgba(255,255,255,.25);}
+.f-logo span{color:var(--rouge);}
+.f-copy{font-size:9px;letter-spacing:1px;color:rgba(255,255,255,.18);}
+
+/* DESKTOP override */
+@media(min-width:768px){
+  :root{--px:64px;}
+  nav{padding:26px var(--px);}
+  .nav-menu{display:none !important;}
+  .nav-links-desktop{display:flex;gap:28px;list-style:none;}
+  .nav-links-desktop a{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--g3);text-decoration:none;transition:color .2s;}
+  .nav-links-desktop a:hover{color:var(--blanc);}
+  .hero{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:60px;padding:60px var(--px);}
+  .hero-name{font-size:clamp(64px,8vw,100px);}
+  .profil-wrap{display:none;}
+  .hero-right-desktop{display:flex;flex-direction:column;gap:16px;}
+  .stats-row{display:none;}
+  .hero-stats-desktop{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.04);}
+  .skills-wrap{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:rgba(255,255,255,.04);}
+  .skills-col{padding:40px 36px;background:var(--noir);margin-bottom:0;}
+  .tools-grid{grid-template-columns:repeat(4,1fr);}
+  .proj-list{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+  .proj-card{border-left:none;border-top:3px solid var(--rouge);padding:28px 24px;}
+  .proj-card.o{border-color:var(--or);}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;}
+}
+@media(max-width:767px){
+  .nav-links-desktop{display:none;}
+  .nav-menu{display:flex;}
+  .hero{display:block;padding:48px var(--px) 0;}
+  .hero-right-desktop{display:none;}
+  .hero-stats-desktop{display:none;}
+  .contact-grid{display:block;}
+  .contact-grid .contact-left-d{margin-bottom:32px;}
+}
+</style>
+</head>
+<body>
+
+<!-- MENU MOBILE -->
+<div class="mobile-menu" id="mobileMenu">
+  <span class="menu-close" onclick="closeMenu()">✕</span>
+  <a href="#skills" onclick="closeMenu()">Compétences</a>
+  <a href="#outils" onclick="closeMenu()">Outils</a>
+  <a href="#projets" onclick="closeMenu()">Projets</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+</div>
+
+<nav>
+  <div class="logo">ASSINOU<span>.</span></div>
+  <ul class="nav-links-desktop">
+    <li><a href="#skills">Compétences</a></li>
+    <li><a href="#projets">Projets</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-avail"><div class="dot-g"></div>Disponible</div>
+    <div class="nav-menu" id="menuBtn" onclick="openMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Montage Vidéo & Marketing Numérique</div>
+    <h1 class="hero-name">ASSI<span class="out">NOU</span><br>IGNACE</h1>
+    <div class="hero-sub">Créateur de contenu · Bénin</div>
+    <p class="hero-desc">Monteur vidéo passionné et marketeur digital en pleine montée en compétences. Je crée du contenu visuel percutant et des stratégies digitales efficaces depuis Cotonou.</p>
+    <div class="hero-badges">
+      <div class="badge r">Montage Vidéo</div>
+      <div class="badge o">Marketing Digital</div>
+      <div class="badge">CapCut</div>
+      <div class="badge">Filmora</div>
+      <div class="badge">Facebook Ads</div>
+      <div class="badge">Affiches IA</div>
+    </div>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn btn-r">Me contacter</a>
+      <a href="#projets" class="btn btn-o">Mes projets</a>
+    </div>
+  </div>
+
+  <!-- Desktop only profil card -->
+  <div class="hero-right-desktop">
+    <div class="profil-card" style="background:var(--g1);border:1px solid rgba(255,255,255,.06);padding:28px;">
+      <div class="profil-top" style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
+        <div class="p-initials">AI</div>
+        <div><div class="p-name">Assinou Ignace</div><div class="p-role">Monteur · Marketeur Digital</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="pi"><div class="pi-icon">◎</div><div class="pi-val">Cotonou, Bénin</div></div>
+        <div class="pi"><div class="pi-icon">☎</div><div class="pi-val">+229 01 45 12 18 88</div></div>
+        <div class="pi"><div class="pi-icon">☎</div><div class="pi-val">+229 01 97 05 04 99</div></div>
+        <div class="pi"><div class="pi-icon">★</div><div class="pi-val">Formation active · 2025–2026</div></div>
+      </div>
+    </div>
+    <div class="hero-stats-desktop">
+      <div class="stat-box"><div class="stat-n">2<span>+</span></div><div class="stat-l">Ans vidéo</div></div>
+      <div class="stat-box"><div class="stat-n" style="font-size:20px;">2025<span style="font-size:14px;">–26</span></div><div class="stat-l">Marketing</div></div>
+      <div class="stat-box"><div class="stat-n">2<span>en1</span></div><div class="stat-l">Expertises</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile: profil card sous le hero -->
+<div class="profil-wrap">
+  <div class="profil-card">
+    <div class="profil-top">
+      <div class="p-initials">AI</div>
+      <div><div class="p-name">Assinou Ignace</div><div class="p-role">Monteur · Marketeur Digital</div></div>
+    </div>
+    <div class="p-infos">
+      <div class="pi"><div class="pi-icon">◎</div><div class="pi-val">Cotonou, Bénin</div></div>
+      <div class="pi"><div class="pi-icon">★</div><div class="pi-val">Formation 2025–2026</div></div>
+      <div class="pi" style="grid-column:1/-1;"><div class="pi-icon">☎</div><div class="pi-val">+229 01 45 12 18 88 · +229 01 97 05 04 99</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile stats -->
+<div class="stats-row" style="margin-top:16px;">
+  <div class="stat-box"><div class="stat-n">2<span>+</span></div><div class="stat-l">Ans vidéo</div></div>
+  <div class="stat-box"><div class="stat-n" style="font-size:18px;line-height:1.2;">25<span style="font-size:12px;">–26</span></div><div class="stat-l">Marketing</div></div>
+  <div class="stat-box"><div class="stat-n">2<span style="font-size:14px;">en1</span></div><div class="stat-l">Expertises</div></div>
+</div>
+
+<div class="sep" style="margin-top:40px;"></div>
+
+<!-- COMPÉTENCES -->
+<div class="sec" id="skills">
+  <div class="sec-tag">Expertise</div>
+  <div class="sec-title">MES COMPÉTENCES</div>
+  <div class="skills-wrap">
+    <div class="skills-col">
+      <div class="col-title">🎬 Montage Vidéo</div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">CapCut</span><span class="sk-pct">Maîtrise</span></div><div class="sk-bar"><div class="sk-fill" style="--w:85%"></div></div><div class="sk-tag">Outil principal</div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Filmora</span><span class="sk-pct">Maîtrise</span></div><div class="sk-bar"><div class="sk-fill" style="--w:80%"></div></div><div class="sk-tag">Outil principal</div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Premiere Pro</span><span class="sk-pct">Notions</span></div><div class="sk-bar"><div class="sk-fill" style="--w:35%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">DaVinci Resolve</span><span class="sk-pct">Notions</span></div><div class="sk-bar"><div class="sk-fill" style="--w:25%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Affiches avec IA</span><span class="sk-pct">Actif</span></div><div class="sk-bar"><div class="sk-fill" style="--w:70%"></div></div><div class="sk-tag r">Nouveau</div></div>
+    </div>
+    <div class="skills-col">
+      <div class="col-title">📈 Marketing Numérique</div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Facebook Ads</span><span class="sk-pct">Bonne base</span></div><div class="sk-bar"><div class="sk-fill o" style="--w:65%"></div></div><div class="sk-tag">2025–2026</div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Outils d'analyse</span><span class="sk-pct">Bonne base</span></div><div class="sk-bar"><div class="sk-fill o" style="--w:60%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Stratégie campagne</span><span class="sk-pct">En cours</span></div><div class="sk-bar"><div class="sk-fill o" style="--w:58%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Marketing de contenu</span><span class="sk-pct">En cours</span></div><div class="sk-bar"><div class="sk-fill o" style="--w:55%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Community Management</span><span class="sk-pct">Notions</span></div><div class="sk-bar"><div class="sk-fill o" style="--w:45%"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- OUTILS -->
+<div class="sec" id="outils" style="padding-bottom:0;">
+  <div class="sec-tag">Outils</div>
+  <div class="sec-title">MON ARSENAL</div>
+</div>
+<div style="padding:0 0 52px;">
+  <div class="tools-grid">
+    <div class="tool-item"><span class="tool-icon">🎬</span><div class="tool-name">CapCut</div><div class="tool-lvl v">Maîtrisé</div></div>
+    <div class="tool-item"><span class="tool-icon">🎞</span><div class="tool-name">Filmora</div><div class="tool-lvl v">Maîtrisé</div></div>
+    <div class="tool-item"><span class="tool-icon">🎨</span><div class="tool-name">Premiere Pro</div><div class="tool-lvl o">Notions</div></div>
+    <div class="tool-item"><span class="tool-icon">🎚</span><div class="tool-name">DaVinci Resolve</div><div class="tool-lvl o">Notions</div></div>
+    <div class="tool-item"><span class="tool-icon">📣</span><div class="tool-name">Facebook Ads</div><div class="tool-lvl v">En formation</div></div>
+    <div class="tool-item"><span class="tool-icon">📊</span><div class="tool-name">Analyse digitale</div><div class="tool-lvl v">En formation</div></div>
+    <div class="tool-item"><span class="tool-icon">🖼</span><div class="tool-name">Affiches IA</div><div class="tool-lvl v">Actif</div></div>
+    <div class="tool-item"><span class="tool-icon">📱</span><div class="tool-name">Réseaux sociaux</div><div class="tool-lvl v">Actif</div></div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- PROJETS -->
+<div class="sec" id="projets">
+  <div class="sec-tag">Réalisations</div>
+  <div class="sec-title">MES PROJETS</div>
+  <div class="proj-list">
+    <div class="proj-card">
+      <div class="proj-type">Montage vidéo</div>
+      <div class="proj-name">Contenus pour réseaux sociaux</div>
+      <div class="proj-desc">Vidéos courtes et engageantes pour Instagram, TikTok et Facebook. Cuts rythmés, transitions et sous-titres.</div>
+      <div class="proj-tags"><div class="ptag">CapCut</div><div class="ptag">Instagram</div><div class="ptag">TikTok</div></div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-type">Montage vidéo</div>
+      <div class="proj-name">Vidéos promotionnelles</div>
+      <div class="proj-desc">Vidéos courtes pour promouvoir des produits ou services. Format adapté au marché béninois.</div>
+      <div class="proj-tags"><div class="ptag">Filmora</div><div class="ptag">Promotion</div><div class="ptag">Bénin</div></div>
+    </div>
+    <div class="proj-card o">
+      <div class="proj-type">Visuel & Design</div>
+      <div class="proj-name">Affiches avec intelligence artificielle</div>
+      <div class="proj-desc">Création d'affiches et visuels professionnels grâce aux outils d'IA. Résultats rapides et qualitatifs.</div>
+      <div class="proj-tags"><div class="ptag">IA</div><div class="ptag">Design</div><div class="ptag">Affiche</div></div>
+    </div>
+    <div class="proj-card o">
+      <div class="proj-type">Marketing Digital · 2025–2026</div>
+      <div class="proj-name">Campagnes Facebook Ads</div>
+      <div class="proj-desc">Conception et paramétrage de campagnes publicitaires sur Meta. Ciblage, suivi des performances et optimisation.</div>
+      <div class="proj-tags"><div class="ptag">Facebook</div><div class="ptag">Publicité</div><div class="ptag">Analyse</div></div>
+    </div>
+    <div class="proj-card o">
+      <div class="proj-type">Marketing Digital · 2025–2026</div>
+      <div class="proj-name">Stratégie de contenu</div>
+      <div class="proj-desc">Plans de contenu pour des comptes de réseaux sociaux. Calendrier éditorial et analyse d'audience.</div>
+      <div class="proj-tags"><div class="ptag">Stratégie</div><div class="ptag">Contenu</div><div class="ptag">2026</div></div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-type">Combo Vidéo + Marketing</div>
+      <div class="proj-name">Vidéos publicitaires boostées</div>
+      <div class="proj-desc">Montage de la vidéo + mise en campagne Facebook pour un impact maximum.</div>
+      <div class="proj-tags"><div class="ptag">CapCut</div><div class="ptag">Facebook Ads</div><div class="ptag">ROI</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- TRAJECTOIRE -->
+<div class="sec">
+  <div class="sec-tag">Parcours</div>
+  <div class="sec-title">MA TRAJECTOIRE</div>
+  <div class="tl-item"><div class="tl-year">2023</div><div class="tl-title">Débuts en montage vidéo</div><div class="tl-org">Auto-formation · CapCut & Filmora</div><div class="tl-desc">Premiers pas dans le montage. Apprentissage des bases du découpage, des transitions et du rythme visuel pour les réseaux sociaux.</div></div>
+  <div class="tl-item"><div class="tl-year">2024</div><div class="tl-title">Exploration des outils pro & affiches IA</div><div class="tl-org">Premiere Pro · DaVinci · Outils IA</div><div class="tl-desc">Initiation aux logiciels professionnels et découverte des outils d'intelligence artificielle pour la création de visuels percutants.</div></div>
+  <div class="tl-item"><div class="tl-year">2025–26</div><div class="tl-title">Formation Marketing Numérique — En cours</div><div class="tl-org">Facebook Ads · Analyse · Stratégie de contenu</div><div class="tl-desc">Formation intensive en marketing digital démarrée en 2025 et toujours en cours en 2026. Objectif : combiner vidéo, design IA et marketing pour une offre complète.</div></div>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-sec" id="contact">
+  <div class="contact-grid">
+    <div class="contact-left-d">
+      <div class="sec-tag">Contact</div>
+      <div class="sec-title">TRAVAILLONS<br>ENSEMBLE</div>
+      <p style="font-size:12px;font-weight:300;line-height:1.85;color:var(--g3);margin-bottom:28px;">Disponible pour des projets de montage vidéo, création d'affiches ou campagnes digitales. Basé à Cotonou, je travaille aussi à distance.</p>
+      <div class="c-items">
+        <div class="c-item"><div class="c-icon">☎</div><div><div class="c-label">Téléphone</div><div class="c-val">+229 01 45 12 18 88<br>+229 01 97 05 04 99</div></div></div>
+        <div class="c-item"><div class="c-icon">◎</div><div><div class="c-label">Localisation</div><div class="c-val">Cotonou, Bénin · Remote OK</div></div></div>
+        <div class="c-item"><div class="c-icon">★</div><div><div class="c-label">Disponibilité</div><div class="c-val">Ouvert aux missions · Maintenant</div></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="cta-box">
+        <div class="cta-title">CE QUE JE PROPOSE</div>
+        <p class="cta-desc">Vidéo, design IA et marketing : une offre complète pour booster votre présence digitale.</p>
+        <div class="svc-list">
+          <div class="svc-row o"><div class="svc-dot"></div>Montage vidéo (CapCut, Filmora)</div>
+          <div class="svc-row o"><div class="svc-dot"></div>Vidéos courtes pour réseaux sociaux</div>
+          <div class="svc-row o"><div class="svc-dot"></div>Création d'affiches avec l'IA</div>
+          <div class="svc-row o"><div class="svc-dot"></div>Campagnes Facebook Ads</div>
+          <div class="svc-row"><div class="svc-dot"></div>Stratégie de contenu digital</div>
+          <div class="svc-row"><div class="svc-dot"></div>Analyse et suivi des performances</div>
+        </div>
+        <a href="tel:+22901451218888" class="btn btn-r btn-full">Appeler maintenant</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="f-logo">ASSINOU<span>.</span></div>
+  <div class="f-copy">© 2026 Assinou Ignace · Cotonou, Bénin</div>
+</footer>
+
+<script>
+function openMenu(){document.getElementById('mobileMenu').classList.add('open');document.body.style.overflow='hidden';}
+function closeMenu(){document.getElementById('mobileMenu').classList.remove('open');document.body.style.overflow='';}
+
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting)e.target.querySelectorAll('.sk-row').forEach(r=>r.classList.add('anim'));
+  });
+},{threshold:.15});
+document.querySelectorAll('.skills-col').forEach(c=>obs.observe(c));
+</script>
+</body>
+</html>
