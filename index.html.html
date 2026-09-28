@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --rouge:#e63012;--rouge2:#a8210c;--or:#c9a050;
+  --blanc:#f4efe8;--noir:#080808;--g1:#141210;
+  --g2:#222020;--g3:#6a6460;--px:20px;
+}
+html{scroll-behavior:smooth;scroll-padding-top:70px;}
+body{background:var(--noir);color:var(--blanc);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;}
+
+/* NAV */
+nav{display:flex;justify-content:space-between;align-items:center;padding:18px var(--px);border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:100;background:rgba(8,8,8,.95);backdrop-filter:blur(10px);}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:3px;}
+.logo span{color:var(--rouge);}
+.nav-right{display:flex;align-items:center;gap:14px;}
+.nav-avail{display:flex;align-items:center;gap:6px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g3);}
+.dot-g{width:6px;height:6px;border-radius:50%;background:#2dbe6c;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.hamburger{display:flex;flex-direction:column;gap:4px;cursor:pointer;padding:4px;background:none;border:none;}
+.hamburger span{width:20px;height:1.5px;background:var(--blanc);display:block;}
+.mobile-menu{display:none;position:fixed;inset:0;background:rgba(8,8,8,.98);z-index:200;flex-direction:column;justify-content:center;align-items:center;gap:36px;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-family:'Bebas Neue',sans-serif;font-size:44px;letter-spacing:3px;color:var(--blanc);text-decoration:none;}
+.mobile-menu a:active{color:var(--rouge);}
+.menu-close{position:absolute;top:22px;right:22px;font-size:32px;color:var(--g3);background:none;border:none;cursor:pointer;}
+.nav-links-desk{display:none;gap:28px;list-style:none;}
+.nav-links-desk a{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--g3);text-decoration:none;}
+.nav-links-desk a:hover{color:var(--blanc);}
+
+/* HERO */
+.hero{padding:44px var(--px) 36px;}
+.hero-tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--rouge);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.hero-tag::before{content:'';width:22px;height:1px;background:var(--rouge);}
+.hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(54px,15vw,90px);line-height:.9;margin-bottom:8px;}
+.hero-name .out{-webkit-text-stroke:1px rgba(244,239,232,.35);color:transparent;}
+.hero-sub{font-family:'Syne',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--or);margin-bottom:18px;}
+.hero-bio{font-size:13px;font-weight:300;line-height:1.85;color:var(--g3);margin-bottom:22px;}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:26px;}
+.badge{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 11px;border:1px solid rgba(255,255,255,.1);color:var(--g3);}
+.badge.r{border-color:rgba(230,48,18,.4);color:var(--rouge);}
+.badge.o{border-color:rgba(201,160,80,.35);color:var(--or);}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.btn{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:12px 22px;cursor:pointer;border:none;text-decoration:none;display:inline-block;}
+.btn-r{background:var(--rouge);color:var(--blanc);}
+.btn-r:hover{background:var(--rouge2);}
+.btn-o{background:transparent;color:var(--g3);border:1px solid rgba(255,255,255,.15);}
+.btn-o:hover{color:var(--blanc);}
+
+/* PROFIL CARD — mobile seulement */
+.profil-card{background:var(--g1);border:1px solid rgba(255,255,255,.06);padding:22px;margin:0 var(--px);}
+.p-top{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+.p-init{width:50px;height:50px;background:var(--rouge);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:18px;flex-shrink:0;}
+.p-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;}
+.p-role{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--or);margin-top:2px;}
+.p-rows{display:flex;flex-direction:column;gap:10px;}
+.p-row{display:flex;align-items:flex-start;gap:10px;}
+.p-icon{width:26px;height:26px;border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--rouge);flex-shrink:0;}
+.p-val{font-size:11px;color:var(--blanc);line-height:1.5;}
+.p-val small{display:block;font-size:9px;color:var(--g3);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;}
+
+/* DRIVE BUTTON */
+.drive-btn{display:flex;align-items:center;gap:10px;padding:14px 18px;background:rgba(201,160,80,.08);border:1px solid rgba(201,160,80,.3);margin:20px var(--px) 0;text-decoration:none;transition:background .2s;}
+.drive-btn:hover{background:rgba(201,160,80,.15);}
+.drive-icon{width:36px;height:36px;background:var(--or);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;}
+.drive-text{}
+.drive-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--g3);margin-bottom:2px;}
+.drive-name{font-size:13px;font-weight:500;color:var(--or);}
+.drive-arrow{margin-left:auto;font-size:18px;color:var(--or);}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.04);margin:20px 0;}
+.stat-box{background:var(--g1);padding:18px 10px;text-align:center;}
+.stat-n{font-family:'Bebas Neue',sans-serif;font-size:26px;line-height:1;}
+.stat-n span{color:var(--rouge);}
+.stat-l{font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g3);margin-top:3px;}
+
+/* SEP */
+.sep{height:1px;background:rgba(255,255,255,.05);margin:0 var(--px);}
+
+/* SECTION */
+.sec{padding:50px var(--px);}
+.sec-tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--rouge);margin-bottom:10px;}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,10vw,62px);line-height:.95;margin-bottom:32px;}
+
+/* SKILLS */
+.sk-col{margin-bottom:32px;}
+.sk-col-title{font-family:'Syne',sans-serif;font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+.sk-row{margin-bottom:16px;}
+.sk-top{display:flex;justify-content:space-between;margin-bottom:6px;}
+.sk-name{font-size:12px;color:var(--blanc);}
+.sk-lvl{font-size:9px;color:var(--g3);}
+.sk-bar{height:2px;background:rgba(255,255,255,.07);}
+.sk-fill{height:100%;background:var(--rouge);width:0;transition:width 1.2s cubic-bezier(.25,.46,.45,.94);}
+.sk-fill.o{background:var(--or);}
+.sk-row.anim .sk-fill{width:var(--w);}
+.sk-tag{font-size:7px;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;border:1px solid rgba(201,160,80,.3);color:var(--or);display:inline-block;margin-top:4px;}
+.sk-tag.r{border-color:rgba(230,48,18,.3);color:var(--rouge);}
+.sk-tag.v{border-color:rgba(45,190,108,.3);color:#2dbe6c;}
+
+/* EXPÉRIENCE */
+.exp-card{background:var(--g1);border-left:3px solid var(--rouge);padding:22px 20px;margin-bottom:2px;}
+.exp-titre{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:4px;}
+.exp-org{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--or);margin-bottom:12px;}
+.exp-list{display:flex;flex-direction:column;gap:7px;}
+.exp-item{display:flex;gap:10px;font-size:12px;font-weight:300;line-height:1.6;color:var(--g3);}
+.exp-dot{width:4px;height:4px;background:var(--rouge);flex-shrink:0;margin-top:7px;}
+
+/* OUTILS */
+.tools-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(255,255,255,.04);}
+.tool-item{background:var(--g1);padding:20px 14px;text-align:center;}
+.tool-icon{font-size:22px;margin-bottom:8px;display:block;}
+.tool-name{font-size:11px;font-weight:500;margin-bottom:3px;}
+.tool-lvl{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g3);}
+.tool-lvl.v{color:#2dbe6c;}
+.tool-lvl.o{color:var(--or);}
+.tool-lvl.r{color:var(--rouge);}
+
+/* COMPÉTENCES CLÉS */
+.keys-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.04);}
+.key-item{background:var(--g1);padding:18px 16px;display:flex;align-items:flex-start;gap:10px;}
+.key-dot{width:4px;height:4px;background:var(--or);flex-shrink:0;margin-top:8px;}
+.key-text{font-size:12px;font-weight:300;line-height:1.6;color:var(--blanc);}
+.key-text strong{font-weight:500;display:block;margin-bottom:2px;}
+
+/* FORMATION */
+.form-item{padding:22px 0;border-top:1px solid rgba(255,255,255,.05);}
+.form-year{font-family:'Bebas Neue',sans-serif;font-size:34px;color:rgba(255,255,255,.1);line-height:1;margin-bottom:6px;}
+.form-titre{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:3px;}
+.form-org{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--or);margin-bottom:7px;}
+.form-desc{font-size:12px;font-weight:300;line-height:1.8;color:var(--g3);}
+.form-badge{display:inline-block;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;background:rgba(45,190,108,.1);border:1px solid rgba(45,190,108,.3);color:#2dbe6c;margin-top:8px;}
+
+/* CONTACT */
+.contact-sec{background:var(--g1);padding:50px var(--px);}
+.c-items{display:flex;flex-direction:column;}
+.c-item{display:flex;align-items:flex-start;gap:14px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.c-item:last-child{border:none;}
+.c-icon{width:36px;height:36px;border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--rouge);flex-shrink:0;}
+.c-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--g3);margin-bottom:3px;}
+.c-val{font-size:12px;color:var(--blanc);line-height:1.6;}
+
+/* SERVICES BOX */
+.svc-box{background:var(--g2);border:1px solid rgba(230,48,18,.2);padding:26px 22px;margin-top:28px;}
+.svc-title{font-family:'Bebas Neue',sans-serif;font-size:24px;margin-bottom:8px;}
+.svc-desc{font-size:11px;font-weight:300;line-height:1.8;color:var(--g3);margin-bottom:18px;}
+.svc-list{display:flex;flex-direction:column;gap:9px;margin-bottom:22px;}
+.svc-row{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--g3);}
+.svc-dot{width:4px;height:4px;background:var(--rouge);flex-shrink:0;}
+.svc-row.o .svc-dot{background:var(--or);}
+.svc-row.o{color:var(--blanc);}
+.btn-full{width:100%;text-align:center;display:block;padding:14px;}
+
+/* FOOTER */
+footer{padding:20px var(--px);border-top:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.f-logo{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:3px;color:rgba(255,255,255,.25);}
+.f-logo span{color:var(--rouge);}
+.f-copy{font-size:9px;letter-spacing:1px;color:rgba(255,255,255,.18);}
+
+/* LANGUES */
+.langs{display:flex;gap:20px;margin-top:12px;}
+.lang-item{display:flex;flex-direction:column;align-items:center;gap:8px;}
+.lang-circle{width:50px;height:50px;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center;}
+.lang-pct{font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--blanc);position:relative;z-index:1;}
+.lang-name{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--g3);}
+
+/* PROJETS */
+.proj-card{display:flex;flex-direction:column;gap:18px;padding:28px 24px;text-decoration:none;color:inherit;background:linear-gradient(135deg,rgba(201,160,80,.14),rgba(201,160,80,.03));border:1px solid rgba(201,160,80,.4);transition:transform .3s,border-color .3s,background .3s;}
+.proj-card:hover{transform:translateY(-3px);border-color:var(--or);background:linear-gradient(135deg,rgba(201,160,80,.22),rgba(201,160,80,.06));}
+.proj-ico{width:52px;height:52px;background:var(--or);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.proj-lab{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--g3);margin-bottom:6px;}
+.proj-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;line-height:1.3;margin-bottom:8px;}
+.proj-desc{font-size:12px;line-height:1.8;color:var(--g3);}
+.proj-go{align-self:flex-start;background:var(--or);color:var(--noir);font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:13px 22px;}
+@media(min-width:768px){.proj-card{flex-direction:row;align-items:center;gap:28px;padding:34px 36px;}.proj-body{flex:1;}.proj-go{align-self:auto;white-space:nowrap;}}
+
+/* CURSEUR DYNAMIQUE */
+.cur-on,.cur-on *{cursor:none!important;}
+#cur-dot,#cur-ring,#cur-glow{position:fixed;top:0;left:0;pointer-events:none;opacity:0;transition:opacity .3s;}
+.cur-on #cur-dot,.cur-on #cur-ring,.cur-on #cur-glow{opacity:1;}
+#cur-glow{width:440px;height:440px;margin:-220px 0 0 -220px;border-radius:50%;background:radial-gradient(circle,rgba(230,48,18,.11),transparent 65%);z-index:9997;}
+#cur-ring{width:38px;height:38px;margin:-19px 0 0 -19px;border:1px solid rgba(244,239,232,.55);border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:9998;transition:width .25s,height .25s,margin .25s,background .25s,border-color .25s,opacity .3s;}
+#cur-ring span{font-size:8px;letter-spacing:1.5px;color:var(--or);opacity:0;transition:opacity .2s;}
+#cur-ring.hov{width:70px;height:70px;margin:-35px 0 0 -35px;border-color:var(--or);background:rgba(201,160,80,.12);}
+#cur-ring.lbl span{opacity:1;}
+#cur-ring.down{width:26px;height:26px;margin:-13px 0 0 -13px;background:rgba(230,48,18,.28);border-color:var(--rouge);}
+#cur-dot{width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--rouge);z-index:9999;}
+.cur-ripple{position:fixed;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;border:1px solid var(--rouge);pointer-events:none;z-index:9999;animation:ripple .6s ease-out forwards;}
+@keyframes ripple{to{transform:scale(7);opacity:0;}}
+@media(prefers-reduced-motion:reduce){#cur-glow,.cur-ripple{display:none;}}
+
+/* DESKTOP */
+@media(min-width:768px){
+  :root{--px:64px;}
+  nav{padding:26px var(--px);}
+  .hamburger{display:none;}
+  .nav-links-desk{display:flex;}
+  .hero{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:60px;padding:60px var(--px);}
+  .profil-card{display:none;}
+  .hero-right-d{display:flex;flex-direction:column;gap:16px;}
+  .stats-row{display:none;}
+  .tools-grid{grid-template-columns:repeat(4,1fr);}
+  .keys-grid{grid-template-columns:repeat(3,1fr);}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;}
+  .drive-btn{margin:20px var(--px) 0;}
+  .skills-wrap{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:rgba(255,255,255,.04);}
+  .sk-col{background:var(--noir);padding:36px 32px;margin-bottom:0;}
+}
+@media(max-width:767px){
+  .hero-right-d{display:none;}
+  .skills-wrap{display:block;}
+  .contact-grid{display:block;}
+  .contact-grid .c-left{margin-bottom:28px;}
+  .drive-btn{margin-left:0;margin-right:0;}
+}
+
+/* RESPONSIVE */
+html{-webkit-text-size-adjust:100%;}
+a,button{-webkit-tap-highlight-color:rgba(230,48,18,.2);}
+.c-val a{color:inherit;text-decoration:none;}
+@media(max-width:767px){
+  nav{padding:10px var(--px);}
+  .hamburger{width:44px;height:44px;align-items:center;justify-content:center;margin-right:-10px;}
+  .hamburger span{width:22px;height:2px;}
+  .menu-close{top:12px;right:12px;width:48px;height:48px;font-size:30px;}
+  .mobile-menu a{padding:6px 20px;}
+  .hero{padding:32px var(--px) 28px;}
+  .hero-tag{font-size:10px;}
+  .hero-sub{font-size:11px;letter-spacing:2px;line-height:1.6;}
+  .hero-bio{font-size:14px;line-height:1.8;}
+  .badge{font-size:10px;padding:6px 11px;}
+  .hero-btns .btn{flex:1 1 100%;text-align:center;padding:16px 22px;font-size:11px;}
+  .btn-full{padding:16px;font-size:11px;}
+  .p-val{font-size:13px;overflow-wrap:anywhere;}
+  .p-val small,.drive-label,.p-role{font-size:10px;}
+  .drive-btn{margin-left:var(--px);margin-right:var(--px);}
+  .drive-name{font-size:14px;}
+  .stat-l{font-size:9px;letter-spacing:1px;}
+  .sec{padding:44px var(--px);}
+  .sec-tag{font-size:11px;}
+  .sk-top{gap:10px;align-items:baseline;}
+  .sk-name{font-size:14px;}
+  .sk-lvl{font-size:11px;text-align:right;}
+  .sk-bar{height:4px;}
+  .sk-tag{font-size:9px;padding:3px 8px;}
+  .sk-col-title{font-size:11px;}
+  .proj-card{padding:22px 18px;}
+  .proj-lab{font-size:10px;}
+  .proj-desc{font-size:13px;}
+  .proj-go{align-self:stretch;text-align:center;padding:16px 22px;font-size:11px;}
+  .exp-item{font-size:13px;}
+  .exp-org,.form-org{font-size:10px;}
+  .tool-name{font-size:13px;}
+  .tool-lvl{font-size:10px;}
+  .key-text{font-size:13px;}
+  .form-titre{font-size:15px;}
+  .form-desc{font-size:13px;}
+  .form-badge{font-size:10px;}
+  .c-left p,.svc-desc{font-size:13px!important;}
+  .c-label{font-size:10px;}
+  .c-val{font-size:14px;overflow-wrap:anywhere;}
+  .c-item{padding:14px 0;}
+  .svc-row{font-size:13px;}
+  .f-copy{font-size:10px;}
+}
+@media(max-width:480px){.keys-grid{grid-template-columns:1fr;}}
+@media(min-width:768px) and (max-width:959px){:root{--px:36px;}.hero{gap:32px;}}
+@media(hover:none){.proj-card:hover{transform:none;}}
+</style>
+</head>
+<body>
+<div id="cur-glow"></div><div id="cur-ring"><span></span></div><div id="cur-dot"></div>
+
+<!-- MENU MOBILE -->
+<div class="mobile-menu" id="mob">
+  <button class="menu-close" onclick="closeM()">✕</button>
+  <a href="#competences" onclick="closeM()">Compétences</a>
+  <a href="#projets" onclick="closeM()" style="color:var(--or);">Projets</a>
+  <a href="#contact" onclick="closeM()">Contact</a>
+</div>
+
+<nav>
+  <div class="logo">ASSINOU<span>.</span></div>
+  <ul class="nav-links-desk">
+    <li><a href="#competences">Compétences</a></li>
+    <li><a href="#projets" style="color:var(--or);">Projets</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-avail"><div class="dot-g"></div>Disponible</div>
+    <button class="hamburger" onclick="openM()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Montage Vidéo & Marketing Numérique</div>
+    <h1 class="hero-name">ASSI<span class="out">NOU</span><br>IGNACE</h1>
+    <div class="hero-sub">Monteur Vidéo · Marketeur Digital · Bénin</div>
+    <p class="hero-bio">Monteur vidéo autodidacte en activité depuis un an, avec expérience de terrain acquise lors d'un stage en entreprise. Formé au marketing numérique (OIF) et en spécialisation création de contenus. Je conjugue maîtrise technique du montage et vision stratégique des contenus.</p>
+    <div class="badges">
+      <div class="badge r">Montage Vidéo</div>
+      <div class="badge o">Marketing Digital</div>
+      <div class="badge r">Premiere Pro</div>
+      <div class="badge">After Effects</div>
+      <div class="badge">CapCut</div>
+      <div class="badge">Facebook Ads</div>
+      <div class="badge">Affiches IA</div>
+    </div>
+    <div class="hero-btns">
+      <a href="#contact" class="btn btn-r">Me contacter</a>
+      <a href="https://drive.google.com/drive/folders/1FNbAWzvRwqdXMOgK40XAZC3t3f-B4TeS?usp=sharing" data-cur="OUVRIR" target="_blank" rel="noopener" class="btn btn-o">📁 Voir mes travaux</a>
+    </div>
+  </div>
+
+  <!-- Desktop : profil card à droite -->
+  <div class="hero-right-d">
+    <div style="background:var(--g1);border:1px solid rgba(255,255,255,.06);padding:26px;">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
+        <div class="p-init">AI</div>
+        <div><div class="p-name" style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;">Assinou Ignace</div><div class="p-role">Monteur · Marketeur Digital</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="p-row"><div class="p-icon">✉</div><div class="p-val"><small>Email</small>ignaceassinou4@gmail.com</div></div>
+        <div class="p-row"><div class="p-icon">☎</div><div class="p-val"><small>Téléphone</small>01 62 05 17 46 · 01 44 50 59 11</div></div>
+        <div class="p-row"><div class="p-icon">◎</div><div class="p-val"><small>Localisation</small>Porto-Novo / Godomey Togoudo, Bénin</div></div>
+        <div class="p-row"><div class="p-icon">🌐</div><div class="p-val"><small>Langues</small>Français (100%) · Anglais (60%)</div></div>
+      </div>
+    </div>
+    <!-- Google Drive -->
+    <a href="https://drive.google.com/drive/folders/1FNbAWzvRwqdXMOgK40XAZC3t3f-B4TeS?usp=sharing" data-cur="OUVRIR" target="_blank" rel="noopener" class="drive-btn" style="text-decoration:none;display:flex;align-items:center;gap:12px;padding:16px 18px;background:rgba(201,160,80,.08);border:1px solid rgba(201,160,80,.3);transition:background .2s;">
+      <div class="drive-icon">📁</div>
+      <div class="drive-text">
+        <div class="drive-label">Mes réalisations</div>
+        <div class="drive-name">Ouvrir Google Drive →</div>
+      </div>
+    </a>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.04);">
+      <div class="stat-box"><div class="stat-n">1<span>an</span></div><div class="stat-l">Expérience</div></div>
+      <div class="stat-box"><div class="stat-n" style="font-size:16px;line-height:1.4;">25<span style="font-size:12px;">–26</span></div><div class="stat-l">Marketing</div></div>
+      <div class="stat-box"><div class="stat-n">3<span>+</span></div><div class="stat-l">Formations</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE : profil card + drive + stats -->
+<div class="profil-card">
+  <div class="p-top">
+    <div class="p-init">AI</div>
+    <div><div class="p-name">Assinou Ignace</div><div class="p-role">Monteur · Marketeur Digital</div></div>
+  </div>
+  <div class="p-rows">
+    <div class="p-row"><div class="p-icon">✉</div><div class="p-val"><small>Email</small>ignaceassinou4@gmail.com</div></div>
+    <div class="p-row"><div class="p-icon">☎</div><div class="p-val"><small>Téléphone</small>01 62 05 17 46 · 01 44 50 59 11</div></div>
+    <div class="p-row"><div class="p-icon">◎</div><div class="p-val"><small>Localisation</small>Porto-Novo / Godomey Togoudo, Bénin</div></div>
+  </div>
+</div>
+
+<a href="https://drive.google.com/drive/folders/1FNbAWzvRwqdXMOgK40XAZC3t3f-B4TeS?usp=sharing" data-cur="OUVRIR" target="_blank" rel="noopener" class="drive-btn" style="text-decoration:none;display:flex;align-items:center;gap:12px;">
+  <div class="drive-icon">📁</div>
+  <div class="drive-text">
+    <div class="drive-label">Mes réalisations vidéo</div>
+    <div class="drive-name">Ouvrir Google Drive →</div>
+  </div>
+</a>
+
+<div class="stats-row">
+  <div class="stat-box"><div class="stat-n">1<span>an</span></div><div class="stat-l">Expérience</div></div>
+  <div class="stat-box"><div class="stat-n" style="font-size:16px;line-height:1.4;">25<span style="font-size:11px;">–26</span></div><div class="stat-l">Marketing</div></div>
+  <div class="stat-box"><div class="stat-n">3<span>+</span></div><div class="stat-l">Formations</div></div>
+</div>
+
+<div class="sep"></div>
+
+<!-- COMPÉTENCES -->
+<div class="sec" id="competences">
+  <div class="sec-tag">Expertise</div>
+  <div class="sec-title">MES COMPÉTENCES</div>
+  <div class="skills-wrap">
+    <div class="sk-col">
+      <div class="sk-col-title">🎬 Montage & Production</div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Adobe Premiere Pro</span><span class="sk-lvl">Expérience en stage</span></div><div class="sk-bar"><div class="sk-fill" style="--w:70%"></div></div><div class="sk-tag r">Outil principal</div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">After Effects</span><span class="sk-lvl">Habillage / retouches</span></div><div class="sk-bar"><div class="sk-fill" style="--w:25%"></div></div><div class="sk-tag">Utilisé en stage</div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">CapCut</span><span class="sk-lvl">Niveau intermédiaire</span></div><div class="sk-bar"><div class="sk-fill" style="--w:50%"></div></div><div class="sk-tag">Complémentaire</div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Intelligence artificielle (IA)</span><span class="sk-lvl">Visuels & affiches</span></div><div class="sk-bar"><div class="sk-fill" style="--w:50%"></div></div><div class="sk-tag r">Actif</div></div>
+    </div>
+    <div class="sk-col">
+      <div class="sk-col-title">📈 Marketing Numérique</div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Facebook Ads & campagnes</span><span class="sk-lvl">Bonne base</span></div><div class="sk-bar"><div class="sk-fill o" style="--w:65%"></div></div><div class="sk-tag">2025–2026</div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Création de contenus</span><span class="sk-lvl">Spécialisation en cours</span></div><div class="sk-bar"><div class="sk-fill o" style="--w:68%"></div></div><div class="sk-tag">OIF</div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Gestion de communauté</span><span class="sk-lvl">En cours</span></div><div class="sk-bar"><div class="sk-fill o" style="--w:58%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Stratégie & audit éditorial</span><span class="sk-lvl">En cours</span></div><div class="sk-bar"><div class="sk-fill o" style="--w:55%"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- PROJETS -->
+<div class="sec" id="projets">
+  <div class="sec-tag">Réalisations</div>
+  <div class="sec-title">MES PROJETS</div>
+  <a class="proj-card" href="https://drive.google.com/drive/folders/1FNbAWzvRwqdXMOgK40XAZC3t3f-B4TeS?usp=sharing" data-cur="OUVRIR" target="_blank" rel="noopener">
+    <div class="proj-ico">📁</div>
+    <div class="proj-body">
+      <div class="proj-lab">Dossier Google Drive</div>
+      <div class="proj-name">Tous mes projets vidéo au même endroit</div>
+      <div class="proj-desc">Montages, vidéos pour réseaux sociaux et habillages : retrouvez mes réalisations directement sur mon Drive.</div>
+    </div>
+    <div class="proj-go">Ouvrir le Drive →</div>
+  </a>
+</div>
+
+<div class="sep"></div>
+
+<!-- EXPÉRIENCE -->
+<div class="sec" id="experience">
+  <div class="sec-tag">Expérience</div>
+  <div class="sec-title">MON EXPÉRIENCE</div>
+  <div class="exp-card">
+    <div class="exp-titre">Stage en entreprise — Montage vidéo</div>
+    <div class="exp-org">Stage 2026 · Bénin</div>
+    <div class="exp-list">
+      <div class="exp-item"><div class="exp-dot"></div>Montage de vidéos sur Adobe Premiere Pro</div>
+      <div class="exp-item"><div class="exp-dot"></div>Habillage et retouches avec After Effects et CapCut</div>
+      <div class="exp-item"><div class="exp-dot"></div>Production de contenus pour les réseaux sociaux</div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- OUTILS -->
+<div class="sec" style="padding-bottom:0;">
+  <div class="sec-tag">Logiciels</div>
+  <div class="sec-title">MON ARSENAL</div>
+</div>
+<div style="padding:0 0 50px;">
+  <div class="tools-grid">
+    <div class="tool-item"><span class="tool-icon">🎬</span><div class="tool-name">Premiere Pro</div><div class="tool-lvl r">Outil principal</div></div>
+    <div class="tool-item"><span class="tool-icon">✨</span><div class="tool-name">After Effects</div><div class="tool-lvl o">Stage</div></div>
+    <div class="tool-item"><span class="tool-icon">📱</span><div class="tool-name">CapCut</div><div class="tool-lvl o">Complémentaire</div></div>
+    <div class="tool-item"><span class="tool-icon">🤖</span><div class="tool-name">IA (visuels)</div><div class="tool-lvl v">Actif</div></div>
+    <div class="tool-item"><span class="tool-icon">📣</span><div class="tool-name">Facebook Ads</div><div class="tool-lvl o">En formation</div></div>
+    <div class="tool-item"><span class="tool-icon">📊</span><div class="tool-name">Analyse digitale</div><div class="tool-lvl o">En formation</div></div>
+    <div class="tool-item"><span class="tool-icon">✍️</span><div class="tool-name">Rédaction marketing</div><div class="tool-lvl o">En cours</div></div>
+    <div class="tool-item"><span class="tool-icon">🌐</span><div class="tool-name">Community Mgmt</div><div class="tool-lvl o">En cours</div></div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- COMPÉTENCES CLÉS -->
+<div class="sec">
+  <div class="sec-tag">Compétences clés</div>
+  <div class="sec-title">CE QUE JE SAIS FAIRE</div>
+  <div class="keys-grid">
+    <div class="key-item"><div class="key-dot"></div><div class="key-text"><strong>Stratégie & audit</strong>Ligne éditoriale et planification de contenu</div></div>
+    <div class="key-item"><div class="key-dot"></div><div class="key-text"><strong>Design & identité</strong>Visuels, affiches et identité de marque</div></div>
+    <div class="key-item"><div class="key-dot"></div><div class="key-text"><strong>Production vidéo</strong>Tournage, montage et post-production</div></div>
+    <div class="key-item"><div class="key-dot"></div><div class="key-text"><strong>Rédaction marketing</strong>Engagement, storytelling et communauté</div></div>
+    <div class="key-item"><div class="key-dot"></div><div class="key-text"><strong>Animation communauté</strong>Gamification et reporting</div></div>
+    <div class="key-item"><div class="key-dot"></div><div class="key-text"><strong>Réseaux sociaux</strong>Contenus adaptés à chaque plateforme</div></div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- FORMATION -->
+<div class="sec" id="formation">
+  <div class="sec-tag">Formation</div>
+  <div class="sec-title">MON PARCOURS</div>
+  <div class="form-item">
+    <div class="form-year">2023–2024</div>
+    <div class="form-titre">Montage vidéo</div>
+    <div class="form-org">Formation autodidacte · Début de la formation en montage vidéo</div>
+    <div class="form-desc">Début de la formation en montage vidéo en autodidacte : apprentissage de Adobe Premiere Pro, After Effects et CapCut, avant le stage en entreprise de 2026.</div>
+  </div>
+  <div class="form-item">
+    <div class="form-year">2025</div>
+    <div class="form-titre">Marketing numérique — Attestation</div>
+    <div class="form-org">Organisation Internationale de la Francophonie (OIF)</div>
+    <div class="form-desc">Formation certifiée en marketing numérique incluant la stratégie digitale, les outils d'analyse et la gestion de campagnes publicitaires.</div>
+    <div class="form-badge">✓ Attestation obtenue</div>
+  </div>
+  <div class="form-item">
+    <div class="form-year">2025–2026</div>
+    <div class="form-titre">Création de contenus & gestion de communauté</div>
+    <div class="form-org">Parcours de spécialisation · En cours</div>
+    <div class="form-desc">Spécialisation active en création de contenus pour les réseaux sociaux, community management, stratégie éditoriale et animation de communautés.</div>
+    <div class="form-badge" style="background:rgba(201,160,80,.1);border-color:rgba(201,160,80,.3);color:var(--or);">⟳ En cours 2026</div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-sec" id="contact">
+  <div class="contact-grid">
+    <div class="c-left">
+      <div class="sec-tag">Contact</div>
+      <div class="sec-title">TRAVAILLONS<br>ENSEMBLE</div>
+      <p style="font-size:12px;font-weight:300;line-height:1.85;color:var(--g3);margin-bottom:24px;">Disponible pour des projets de montage vidéo, création de contenus ou campagnes digitales. Basé à Porto-Novo / Cotonou, je travaille aussi à distance.</p>
+      <div class="c-items">
+        <div class="c-item"><div class="c-icon">✉</div><div><div class="c-label">Email</div><div class="c-val"><a href="mailto:ignaceassinou4@gmail.com">ignaceassinou4@gmail.com</a></div></div></div>
+        <div class="c-item"><div class="c-icon">☎</div><div><div class="c-label">Téléphone</div><div class="c-val"><a href="tel:+2290162051746">01 62 05 17 46</a><br><a href="tel:+2290144505911">01 44 50 59 11</a></div></div></div>
+        <div class="c-item"><div class="c-icon">◎</div><div><div class="c-label">Localisation</div><div class="c-val">Porto-Novo / Godomey Togoudo, Bénin</div></div></div>
+        <div class="c-item">
+          <div class="c-icon">📁</div>
+          <div>
+            <div class="c-label">Réalisations</div>
+            <div class="c-val"><a href="https://drive.google.com/drive/folders/1FNbAWzvRwqdXMOgK40XAZC3t3f-B4TeS?usp=sharing" data-cur="OUVRIR" target="_blank" rel="noopener" style="color:var(--or);text-decoration:none;">Voir sur Google Drive →</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="svc-box">
+        <div class="svc-title">CE QUE JE PROPOSE</div>
+        <p class="svc-desc">Vidéo, design IA et marketing : une offre complète pour booster votre présence digitale.</p>
+        <div class="svc-list">
+          <div class="svc-row o"><div class="svc-dot"></div>Montage vidéo (Premiere Pro, CapCut)</div>
+          <div class="svc-row o"><div class="svc-dot"></div>Vidéos courtes pour réseaux sociaux</div>
+          <div class="svc-row o"><div class="svc-dot"></div>Habillage vidéo (After Effects)</div>
+          <div class="svc-row o"><div class="svc-dot"></div>Création d'affiches avec l'IA</div>
+          <div class="svc-row"><div class="svc-dot"></div>Campagnes Facebook Ads</div>
+          <div class="svc-row"><div class="svc-dot"></div>Stratégie & création de contenus</div>
+        </div>
+        <a href="mailto:ignaceassinou4@gmail.com" class="btn btn-r btn-full">Envoyer un email</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="f-logo">ASSINOU<span>.</span></div>
+  <div class="f-copy">© 2026 Assinou Ignace · Porto-Novo, Bénin</div>
+</footer>
+
+<script>
+function openM(){document.getElementById('mob').classList.add('open');document.body.style.overflow='hidden';}
+function closeM(){document.getElementById('mob').classList.remove('open');document.body.style.overflow='';}
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.querySelectorAll('.sk-row').forEach(r=>r.classList.add('anim'));});
+},{threshold:.15});
+document.querySelectorAll('.sk-col').forEach(c=>obs.observe(c));
+/* Curseur dynamique */
+(function(){
+  if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches)return;
+  var root=document.documentElement,dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring'),
+      lbl=ring.querySelector('span'),glow=document.getElementById('cur-glow'),
+      mx=0,my=0,rx=0,ry=0,gx=0,gy=0,on=false;
+  window.addEventListener('mousemove',function(e){
+    mx=e.clientX;my=e.clientY;
+    if(!on){on=true;rx=gx=mx;ry=gy=my;root.classList.add('cur-on');}
+  });
+  root.addEventListener('mouseleave',function(){root.classList.remove('cur-on');});
+  root.addEventListener('mouseenter',function(){if(on)root.classList.add('cur-on');});
+  window.addEventListener('mousedown',function(e){
+    ring.classList.add('down');
+    var r=document.createElement('div');r.className='cur-ripple';
+    r.style.left=e.clientX+'px';r.style.top=e.clientY+'px';
+    document.body.appendChild(r);setTimeout(function(){r.remove();},600);
+  });
+  window.addEventListener('mouseup',function(){ring.classList.remove('down');});
+  document.addEventListener('mouseover',function(e){
+    var t=e.target.closest?e.target.closest('a,button,[data-cur]'):null;
+    ring.classList.toggle('hov',!!t);
+    var l=t&&t.getAttribute('data-cur');
+    ring.classList.toggle('lbl',!!l);
+    if(l)lbl.textContent=l;
+  });
+  function loop(){
+    rx+=(mx-rx)*.16;ry+=(my-ry)*.16;
+    gx+=(mx-gx)*.06;gy+=(my-gy)*.06;
+    dot.style.transform='translate3d('+mx+'px,'+my+'px,0)';
+    ring.style.transform='translate3d('+rx+'px,'+ry+'px,0)';
+    glow.style.transform='translate3d('+gx+'px,'+gy+'px,0)';
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+</script>
+</body>
+</html>
